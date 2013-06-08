@@ -16,32 +16,30 @@ try:
 	import threading
 	import ConfigParser
 	import sys
-	import os	
+	import os
 except ImportError as error:
 	print 'ImportError: ', str(error)
 	exit(1)
 
-app = Flask(__name__)
-app.config.from_pyfile('cfg/app.cfg', silent=True)
 
 if len(sys.argv) > 1:
-	filename = os.path.join(app.root_path, sys.argv[1])
-	config = ConfigParser.ConfigParser()
-	config.read(filename)
+	config = sys.argv[1]
 else:
-	print("Not enough argument")
-	exit(1)
+	config = "/etc/home/app.cfg"
+
+app = Flask(__name__)
+app.config.from_pyfile(config, silent=True)
 
 print(config)
 
 try:
 	# Switches config
-	switches_config = os.path.join(app.root_path, config.get('JSON', 'SWITCHES'))
+	switches_config = app.config["SWITCHES"]
 	with open(switches_config) as f:
 		switchesjson = json.load(f)
 
 	# Sensors config
-	sensors_config = os.path.join(app.root_path, config.get('JSON', 'SENSORS'))
+	sensors_config = app.config["SENSORS"]
 	with open(sensors_config) as f:
 		sensorsjson = json.load(f)
 except:
@@ -100,7 +98,7 @@ def set_switch_status(switchId, status):
 
 	return res
 
-################### SENSORS 
+################### SENSORS
 
 
 def invalidate_sensor_cache(sensorId):

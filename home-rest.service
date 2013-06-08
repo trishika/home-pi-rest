@@ -1,0 +1,10 @@
+[Unit]
+Description=Domotique REST server deamon
+
+[Service]
+ExecStart=/usr/local/bin/home-restServer.py
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
