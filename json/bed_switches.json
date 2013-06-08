@@ -1,0 +1,4 @@
+[
+	{"id" : 1, "name" : "Lamp", "command" : "srcswitch", "code": "10101", "number" : "10000", "status" : 0},
+	{"id" : 2, "name" : "Heater bed", "command" : "srcswitch", "code" : "10101", "number" : "00100", "status" : 0}
+]
