@@ -83,20 +83,24 @@ def get_switches():
 # Get one switch
 @app.route("/switches/<int:switchId>/", methods = ["GET"])
 def get_switch(switchId):
-	return json.dumps(switches[switchId])
+	try:
+		return json.dumps(switches[switchId])
+	except:
+		return json.dumps({})
 
 # Set switch status
 @app.route("/switches/<int:switchId>/<int:status>/", methods = ["GET"])
 def set_switch_status(switchId, status):
+	try:
+		if not status in ( 1 , 0):
+			raise Exception("Invalid status")
 
-	res = {}
-
-	# Take mutex sensors
-	with mutex_switches:
-		call_switch(switchId, status)
-		res = json.dumps({"id" : switchId, "status" : switches[switchId]["status"]})
-
-	return res
+		# Take mutex sensors
+		with mutex_switches:
+			call_switch(switchId, status)
+			return json.dumps({"id" : switchId, "status" : switches[switchId]["status"]})
+	except:
+		return json.dumps({})
 
 ################### SENSORS
 
@@ -147,15 +151,13 @@ def get_sensors():
 # Get one sensors
 @app.route("/sensors/<int:sensorId>/", methods = ["GET"])
 def get_sensor(sensorId):
-
-	res = {}
-
-	# Take mutex sensors
-	with mutex_sensors:
-		fill_sensor_value(sensorId)
-		res = json.dumps(sensors[sensorId])
-
-	return res
+	try:
+		# Take mutex sensors
+		with mutex_sensors:
+			fill_sensor_value(sensorId)
+			return json.dumps(sensors[sensorId])
+	except:
+		return json.dumps({})
 
 app.run("0.0.0.0")
 
