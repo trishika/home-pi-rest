@@ -159,5 +159,5 @@ def get_sensor(sensorId):
 	except:
 		return json.dumps({})
 
-app.run("0.0.0.0")
+app.run("0.0.0.0", app.config["PORT"])
 
