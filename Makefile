@@ -15,6 +15,7 @@ install:
 	mkdir -p $(CONFIG_DIR)
 	cp cfg/rest.cfg $(CONFIG_DIR)
 	cp restServer.py $(BIN_DIR)/home-restServer.py
+	cp restClientLib.py $(BIN_DIR)
 	cp home-rest.service $(SYSTEMD_DIR)
 
 config-bed:
