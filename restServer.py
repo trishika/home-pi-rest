@@ -25,7 +25,8 @@ except ImportError as error:
 if len(sys.argv) > 1:
 	config = sys.argv[1]
 else:
-	config = "/etc/home/app.cfg"
+	print("You need to provide a configuration")
+	exit(1)
 
 app = Flask(__name__)
 app.config.from_pyfile(config, silent=True)
@@ -43,7 +44,7 @@ try:
 	with open(sensors_config) as f:
 		sensorsjson = json.load(f)
 except:
-	print 'Unabled to load switches or sensors configuration'
+	print('Unabled to load switches or sensors configuration')
 	exit(1)
 
 mutex_switches = threading.RLock()

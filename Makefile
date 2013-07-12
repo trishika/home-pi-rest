@@ -1,11 +1,19 @@
 
-CONFIG_DIR=/etc/home/
-BIN_DIR=/usr/local/bin/
-SYSTEMD_DIR=/etc/systemd/system/
+ifndef $(CONFIG_DIR)
+	CONFIG_DIR=/etc/home/
+endif
+
+ifndef $(BIN_DIR)
+	BIN_DIR=/usr/local/bin/
+endif
+
+ifndef $(SYSTEMD_DIR)
+	SYSTEMD_DIR=/etc/systemd/system/
+endif
 
 install:
-	#mkdir -p $(CONFIG_DIR)
-	cp cfg/app.cfg $(CONFIG_DIR)
+	mkdir -p $(CONFIG_DIR)
+	cp cfg/rest.cfg $(CONFIG_DIR)
 	cp restServer.py $(BIN_DIR)/home-restServer.py
 	cp home-rest.service $(SYSTEMD_DIR)
 

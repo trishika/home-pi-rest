@@ -2,7 +2,7 @@
 Description=Domotique REST server deamon
 
 [Service]
-ExecStart=/usr/local/bin/home-restServer.py
+ExecStart=/usr/local/bin/home-restServer.py /etc/home/rest.cfg
 KillMode=process
 Restart=always
 
