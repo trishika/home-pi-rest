@@ -26,8 +26,9 @@ Install on the system :
 Dependencies
 ============
 
-Flask : Use to server content.
-Simplejson : Use to easily handle json data.
+[Flask](http://flask.pocoo.org) : Use to server content.
+
+[Simplejson](https://pypi.python.org/pypi/simplejson/) : Use to easily handle json data
 
 Copying
 =======
