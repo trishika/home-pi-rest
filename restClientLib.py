@@ -23,11 +23,20 @@ def update_sensor(sensor):
 		data = json.loads(url.read())
 		sensor["value"] = data["value"]
 	except:
-		print("Failed to update sensor value of sensor %(name)s" % { "name": switch["name"] })
+		print("Failed to update status of sensor %(name)s" % { "name": sensor["name"] })
+		print_exc()
+
+def update_switch(switch):
+	try:
+		url = urllib2.urlopen("%(host)s/switches/%(id)s/" % { "host" : switch["host"], "id": switch["id"] })
+		data = json.loads(url.read())
+		switch["status"] = data["status"]
+	except:
+		print("Failed to update status of switch %(name)s" % { "name": switch["name"] })
 		print_exc()
 
 def set_switch(switch, status):
-	try:		
+	try:
 		url = urllib2.urlopen("%(host)s/switch/%(id)s/%(status)d" % { "host" : switch["host"], "id": switch["id"], "status": status  })
 		data = json.loads(url.read())
 		sensor["status"] = data["status"]
