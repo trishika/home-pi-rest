@@ -37,16 +37,32 @@ def update_switch(switch):
 
 def set_switch(switch, status):
 	try:
-		url = urllib2.urlopen("%(host)s/switch/%(id)s/%(status)d" % { "host" : switch["host"], "id": switch["id"], "status": status  })
+		url = urllib2.urlopen("%(host)s/switches/%(id)s/%(status)d" % { "host" : switch["host"], "id": switch["id"], "status": status  })
 		data = json.loads(url.read())
-		sensor["status"] = data["status"]
 	except:
 		print("Failed to set switch %(name)s" % { "name": switch["name"] })
 		print_exc()
 
-def get_nodes(servers):
-	switches = []
+def get_sensors(servers):
 	sensors = []
+	for server in servers:
+		try:
+			# Get sensors list
+			url = urllib2.urlopen("http://%(host)s:%(port)d/sensors/" % { "host" : server["host"], "port" : server["port"] })
+			str = url.read()
+			server_sensors = json.loads(str)
+			for sensor in server_sensors:
+				sensor["host"] = "http://%(host)s:%(port)d" % { "host" : server["host"], "port" : server["port"] }
+			sensors.extend(server_sensors)
+		except:
+			print("Failed to load sensors for server %(host)s" % { "host": server["host"] })
+			print_exc()
+
+	print("sensors : %(sensors)s" % { "sensors": sensors})
+	return sensors
+
+def get_switches(servers):
+	switches = []
 	for server in servers:
 		try:
 			# Get switches list
@@ -60,19 +76,9 @@ def get_nodes(servers):
 			print("Failed to load switches for server %(host)s" % { "host": server["host"] })
 			print_exc()
 
-		try:
-			# Get sensors list
-			url = urllib2.urlopen("http://%(host)s:%(port)d/sensors/" % { "host" : server["host"], "port" : server["port"] })
-			str = url.read()
-			server_sensors = json.loads(str)
-			for sensor in server_sensors:
-				sensor["host"] = "http://%(host)s:%(port)d" % { "host" : server["host"], "port" : server["port"] }
-			sensors.extend(server_sensors)
-		except:
-			print("Failed to load sensors for server %(host)s" % { "host": server["host"] })
-			print_exc()
-
 	print("switches : %(switches)s" % { "switches": switches})
-	print("sensors : %(sensors)s" % { "sensors": sensors})
+	return switches
 
-	return switches,sensors
+def get_nodes(servers):
+	return get_switches(servers),get_sensors(servers)
+
