@@ -8,7 +8,7 @@ ifndef $(BIN_DIR)
 endif
 
 ifndef $(SYSTEMD_DIR)
-	SYSTEMD_DIR=/etc/systemd/system/
+	SYSTEMD_DIR=/usr/lib/systemd/system/
 endif
 
 install:
